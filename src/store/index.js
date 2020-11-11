@@ -1,7 +1,7 @@
-import Vue from "vue"
-import Vuex from "vuex"
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -10,7 +10,8 @@ export default new Vuex.Store({
     character: "",
     characterChoices: ["baker", "mechanic", "artist"],
     questionIndex: 0,
-    questions: [{
+    questions: [
+      {
         question: `What's your dog's name?`,
         baker: "Woofgang Puck",
         mechanic: "Alf",
@@ -50,24 +51,32 @@ export default new Vuex.Store({
   },
   mutations: {
     updateCharacter(state, choice) {
-      state.character = choice
+      state.character = choice;
     },
     updateScore(state, amount) {
-      state.score = amount
+      state.score = amount;
     },
     updateUIState(state, uistate) {
-      state.uiState = uistate
+      state.uiState = uistate;
+    },
+    resetQuestionIndex(state) {
+      state.questionIndex = 0;
     },
     pickQuestion(state, character) {
-      character === state.character ? (state.score += 13) : (state.score -= 13)
+      console.log(character);
+      character === state.character ? (state.score += 13) : (state.score -= 13);
 
+      // if we haven't reached end of index, ask next question
       if (state.questionIndex < state.questions.length - 1) {
-        state.questionIndex++
+        state.questionIndex++;
+        // if you have reached end of index, check score and set final uiState
       } else {
-        Math.sign(state.score) > 0 ?
-          (state.uiState = "won") :
-          (state.uiState = "lost")
+        // in typescript, you would be literally setting it to number
+        // this is a quick way to make sure it's actually a whole number
+        Math.sign(state.score) > 0
+          ? (state.uiState = "won")
+          : (state.uiState = "lost");
       }
     },
   },
-})
+});

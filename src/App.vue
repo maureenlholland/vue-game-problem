@@ -1,7 +1,8 @@
 <template>
   <div id="app" class="contain">
     <GamestateStart v-if="uiState === 'start'">
-      <h2>Which hooman do you want to be?</h2>
+      <!-- the inside elements are passed via the <slot> component -->
+      <h2>Which human do you want to be?</h2>
       <p
         v-for="option in characterChoices"
         :key="option"
@@ -97,20 +98,23 @@
         </p>
       </div>
     </section>
+
+    <GamestateFinish v-else></GamestateFinish>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex"
-import gsap from "gsap"
+import { mapState } from "vuex";
+import gsap from "gsap";
 
-import Score from "@/components/Score.vue"
-import Baker from "@/components/Baker.vue"
-import Friend from "@/components/Friend.vue"
-import Artist from "@/components/Artist.vue"
-import Zombie from "@/components/Zombie.vue"
-import Mechanic from "@/components/Mechanic.vue"
-import GamestateStart from "@/components/GamestateStart.vue"
+import Score from "@/components/Score.vue";
+import Baker from "@/components/Baker.vue";
+import Friend from "@/components/Friend.vue";
+import Artist from "@/components/Artist.vue";
+import Zombie from "@/components/Zombie.vue";
+import Mechanic from "@/components/Mechanic.vue";
+import GamestateStart from "@/components/GamestateStart.vue";
+import GamestateFinish from "@/components/GamestateFinish.vue";
 
 export default {
   components: {
@@ -121,11 +125,12 @@ export default {
     Zombie,
     Mechanic,
     GamestateStart,
+    GamestateFinish,
   },
   data() {
     return {
       characterinput: "",
-    }
+    };
   },
   computed: {
     ...mapState([
@@ -139,21 +144,24 @@ export default {
   },
   methods: {
     pickCharacter() {
-      this.$store.commit("updateCharacter", this.characterinput)
-      this.$store.commit("updateUIState", "characterChosen")
+      this.$store.commit("updateCharacter", this.characterinput);
+      this.$store.commit("updateUIState", "characterChosen");
+      this.characterinput = "";
     },
     pickQuestion(character) {
-      this.$store.commit("pickQuestion", character)
+      this.$store.commit("pickQuestion", character);
     },
+    // a really useful Fisher-Yates version of shuffle, this is what lodash uses under the hood
+    // could be a computed property instead of a method, but very scalable if you can pass in an array as a parameter, which you can only do with method
     shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[array[i], array[j]] = [array[j], array[i]]
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      return array
+      return array;
     },
   },
-}
+};
 </script>
 
 <style lang="scss">

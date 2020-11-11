@@ -74,6 +74,8 @@ export default {
     },
   },
   watch: {
+    // note, you can pass both new and old, here we are just using new
+    // remember transform origin is by default at 0% 0% (top left)
     score(newValue, oldValue) {
       gsap.to("#needle", {
         duration: 0.3,
