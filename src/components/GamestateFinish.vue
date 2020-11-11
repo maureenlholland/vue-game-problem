@@ -19,6 +19,7 @@ export default {
     ...mapState(["uiState"]),
   },
   methods: {
+    // sdras solution uses a "restartGame" mutation directly in the store to avoid the multiple commits, makes a lot of sense, that's where all the game logic is already
     restart() {
       // set score to 0, set question index to 0, set character to empty string, set ui state to start
       this.$store.commit("updateScore", 0);

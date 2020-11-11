@@ -75,6 +75,8 @@ export default {
   },
   watch: {
     // note, you can pass both new and old, here we are just using new
+    // extra credit: you can use clip paths to expose zombie underneath based on score
+    // article about clipping/masking: https://css-tricks.com/masking-vs-clipping-use/
     // remember transform origin is by default at 0% 0% (top left)
     score(newValue, oldValue) {
       gsap.to("#needle", {
